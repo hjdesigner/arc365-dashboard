@@ -29,7 +29,7 @@ const InputElement = styled.input`
   cursor: pointer;
   font-size: 1em;
   font-weight: ${({ theme }) => theme.fontWeight.light};
-  padding: ${({ theme }) => theme.space.small} 0;
+  padding: ${({ theme }) => theme.space.regular} ${({ theme }) => theme.space.small};
   transition: border 0.25s ease-in-out;
   width: 100%;
 

@@ -6,6 +6,8 @@ const theme = {
     grayDark: '#333333',
     grayLight: '#F4F4F4',
     blue: '#3d50e0',
+    red: '#d10d0d',
+    green: '#4bcf23',
   },
   fontSizes: {
     small: '1em',
@@ -23,6 +25,13 @@ const theme = {
     regular: '16px',
     medium: '24px',
     large: '32px',
+    extraLarge: '64px',
+  },
+  breakpoints: {
+    small: '576px',
+    medium: '768px',
+    large: '992px',
+    extraLarge: '1200px',
   },
 };
 
