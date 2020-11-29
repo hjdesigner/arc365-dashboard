@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { string } from 'prop-types';
 
-const Input = ({ name, text, type, ...props }) => (
+const Input = ({ name, text, type, value, ...props }) => (
   <Container>
     <Label htmlFor={name}>{text}</Label>
-    <InputElement name={name} type={type} {...props} />
+    <InputElement name={name} type={type} value={value} {...props} />
   </Container>
 );
 
@@ -42,12 +42,14 @@ Input.defaultProps = {
   name: 'Name',
   text: 'Name',
   type: 'text',
+  value: '',
 };
 
 Input.propTypes = {
   name: string.isRequired,
   text: string.isRequired,
   type: string.isRequired,
+  value: string.isRequired,
 };
 
 export default Input;

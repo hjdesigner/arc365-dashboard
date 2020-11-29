@@ -1,6 +1,7 @@
 import React from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { CategoryProvider } from 'contexts';
 import theme from 'utils/themes';
 import App from './App';
 
@@ -24,10 +25,12 @@ const GlobalStyle = createGlobalStyle`
 function Root() {
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle whiteColor />
-      <BrowserRouter>
-        <Route component={App} />
-      </BrowserRouter>
+      <CategoryProvider>
+        <GlobalStyle whiteColor />
+        <BrowserRouter>
+          <Route component={App} />
+        </BrowserRouter>
+      </CategoryProvider>
     </ThemeProvider>
   );
 }

@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Input, StandardButton } from 'components';
+import { Input, StandardButton, AlertSuccess, AlertError } from 'components';
+import { useCategory } from 'hooks';
 
 const createCategory = () => {
   const [parentCategory, setParentCategory] = useState(false);
-
+  const [empty, setEmpty] = useState(true);
+  const [nameCategory, setNameCategory] = useState('');
+  const { addCategory, statusRequest } = useCategory();
   const handleCheck = () => setParentCategory(!parentCategory);
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setNameCategory(value);
+    value.length > 1 ? setEmpty(false) : setEmpty(true);
+  };
+  const handleCreate = () => addCategory(nameCategory);
 
   return (
     <Container>
       <Content>
         <Title>Criar categoria</Title>
+        {statusRequest && <AlertSuccess text="Categoria cadastrada com sucesso!" />}
+        {statusRequest == false && (
+          <AlertError text="Houve um problema, tente novamente mais tarde" />
+        )}
         <Input
           name="categoy"
           text="Nome da categoria"
           type="text"
           placeholder="digite o nome da categoria"
+          value={nameCategory}
+          onChange={handleChange}
         />
         <ParentCategory>
           <InputParent id="parent" name="parent" type="checkbox" onChange={handleCheck} />
@@ -30,7 +45,9 @@ const createCategory = () => {
           </Categories>
         )}
         <Actions>
-          <Button>Criar categoria</Button>
+          <Button disabled={empty} onClick={handleCreate}>
+            Criar categoria
+          </Button>
         </Actions>
       </Content>
     </Container>
@@ -45,16 +62,16 @@ const Container = styled.main`
   width: 100%;
 `;
 const Content = styled.section`
-  max-width: ${({ theme }) => theme.breakpoints.extraLarge};
-  width: 80%;
   border: 1px solid ${({ theme }) => theme.colors.grayLight};
-  padding: ${({ theme }) => theme.space.medium};
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.14);
+  max-width: ${({ theme }) => theme.breakpoints.extraLarge};
+  padding: ${({ theme }) => theme.space.medium};
+  width: 80%;
 `;
 const Title = styled.h1`
-  margin: ${({ theme }) => theme.space.small} 0 ${({ theme }) => theme.space.extraLarge};
-  font-weight: ${({ theme }) => theme.fontWeight.regular};
   font-size: 2em;
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
+  margin: ${({ theme }) => theme.space.small} 0 ${({ theme }) => theme.space.extraLarge};
 `;
 const Actions = styled.div`
   display: flex;
@@ -62,38 +79,43 @@ const Actions = styled.div`
 `;
 const Button = styled(StandardButton)`
   text-transform: uppercase;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
 `;
 const ParentCategory = styled.div`
   margin-bottom: ${({ theme }) => theme.space.large};
 `;
 const LabelParent = styled.label`
   color: ${({ theme }) => theme.colors.black};
+  cursor: pointer;
   font-size: 1.1em;
   font-weight: ${({ theme }) => theme.fontWeight.regular};
   position: relative;
-  cursor: pointer;
   transition: all 0.25s linear;
 
   &:before {
-    content: '';
-    width: 50px;
-    border: 1px solid ${({ theme }) => theme.colors.grayDark};
     background-color: ${({ theme }) => theme.colors.grayLight};
     border-radius: 60px;
-    position: absolute;
-    top: 0;
-    right: -60px;
+    border: 1px solid ${({ theme }) => theme.colors.grayDark};
+    content: '';
     height: 20px;
+    position: absolute;
+    right: -60px;
+    top: 0;
+    width: 50px;
   }
   &:after {
-    content: '';
-    width: 25px;
     background-color: ${({ theme }) => theme.colors.grayDark};
     border-radius: 50%;
-    position: absolute;
-    top: 2px;
-    right: -37px;
+    content: '';
     height: 18px;
+    position: absolute;
+    right: -29px;
+    top: 2px;
+    width: 18px;
   }
 `;
 const InputParent = styled.input`
@@ -101,19 +123,19 @@ const InputParent = styled.input`
 
   &:checked ~ label:after {
     background-color: ${({ theme }) => theme.colors.green};
-    transform: translateX(19px);
+    transform: translateX(27px);
   }
 `;
 const Categories = styled.div`
   margin-bottom: ${({ theme }) => theme.space.large};
 `;
 const ListCategories = styled.select`
-  width: 100%;
-  max-width: 400px;
-  height: 50px;
-  padding: 0 ${({ theme }) => theme.space.small};
   font-size: 0.9em;
   font-weight: ${({ theme }) => theme.fontWeight.light};
+  height: 50px;
+  max-width: 400px;
+  padding: 0 ${({ theme }) => theme.space.small};
+  width: 100%;
 `;
 
 export default createCategory;

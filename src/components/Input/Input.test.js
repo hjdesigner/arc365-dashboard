@@ -9,9 +9,18 @@ configure({ adapter: new Adapter() });
 
 describe('Teste tdd Input', () => {
   it('Should return one label', () => {
-    const componet = mount(<ThemeProvider theme={theme}><Input name="name" type="text" text="Name" placeholder="you name" /></ThemeProvider>);
+    const componet = mount(<ThemeProvider theme={theme}>
+      <Input
+        name="name"
+        type="text"
+        text="Name"
+        placeholder="you name"
+        value=""
+        onChange={() => {}} />
+      </ThemeProvider>
+    );
     expect(componet.find('label')).toHaveLength(1);
   });
-  
+
 
 });
