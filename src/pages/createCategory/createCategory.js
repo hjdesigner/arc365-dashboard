@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Input, StandardButton, AlertSuccess, AlertError } from 'components';
 import { useCategory } from 'hooks';
 
 const createCategory = () => {
-  const [parentCategory, setParentCategory] = useState(false);
-  const [empty, setEmpty] = useState(true);
-  const [nameCategory, setNameCategory] = useState('');
-  const { addCategory, statusRequest } = useCategory();
-  const handleCheck = () => setParentCategory(!parentCategory);
+  const {
+    addCategory,
+    statusRequest,
+    empty,
+    toggleEmpty,
+    parentCategory,
+    toggleParentCategory,
+    nameCategory,
+    setName,
+    resetStatusRequest,
+  } = useCategory();
+  const handleCheck = () => toggleParentCategory();
   const handleChange = (e) => {
     const { value } = e.target;
-    setNameCategory(value);
-    value.length > 1 ? setEmpty(false) : setEmpty(true);
+    setName(value);
+    if (value.length > 1) {
+      toggleEmpty(false);
+    } else {
+      toggleEmpty(true);
+      resetStatusRequest();
+    }
   };
   const handleCreate = () => addCategory(nameCategory);
 
