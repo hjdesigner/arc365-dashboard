@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Input, StandardButton, AlertSuccess, AlertError } from 'components';
 import { useCategory } from 'hooks';
@@ -14,6 +14,13 @@ const createCategory = () => {
     nameCategory,
     setName,
     resetStatusRequest,
+    getCategories,
+    categories,
+    idCategory,
+    addIdCategory,
+    addSubCategory,
+    resetIdCategory,
+    resetParentCategory,
   } = useCategory();
   const handleCheck = () => toggleParentCategory();
   const handleChange = (e) => {
@@ -21,12 +28,25 @@ const createCategory = () => {
     setName(value);
     if (value.length > 1) {
       toggleEmpty(false);
-    } else {
+    }
+    if (value.length === 0) {
       toggleEmpty(true);
       resetStatusRequest();
+      resetParentCategory();
+      resetIdCategory();
     }
   };
-  const handleCreate = () => addCategory(nameCategory);
+  const handleCreate = () => {
+    idCategory !== 0 ? addSubCategory(idCategory, nameCategory) : addCategory(nameCategory);
+  };
+  const handleSelect = (e) => {
+    const { value } = e.target;
+    addIdCategory(parseInt(value));
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <Container>
@@ -44,15 +64,26 @@ const createCategory = () => {
           value={nameCategory}
           onChange={handleChange}
         />
-        <ParentCategory>
-          <InputParent id="parent" name="parent" type="checkbox" onChange={handleCheck} />
-          <LabelParent htmlFor="parent">Criar como uma sub-categoria</LabelParent>
-        </ParentCategory>
-        {parentCategory && (
+        {categories.length && (
+          <ParentCategory>
+            <InputParent
+              id="parent"
+              name="parent"
+              type="checkbox"
+              checked={parentCategory}
+              onChange={handleCheck}
+            />
+            <LabelParent htmlFor="parent">Criar como uma sub-categoria</LabelParent>
+          </ParentCategory>
+        )}
+        {categories.length && parentCategory && (
           <Categories>
-            <ListCategories>
-              <option value="cadastro">Cadastro</option>
-              <option value="renda-fixa">Renda Fixa</option>
+            <ListCategories value={idCategory} onChange={handleSelect}>
+              {categories.map((item) => (
+                <option value={item.id_category} key={item.id_category}>
+                  {item.name_category}
+                </option>
+              ))}
             </ListCategories>
           </Categories>
         )}
