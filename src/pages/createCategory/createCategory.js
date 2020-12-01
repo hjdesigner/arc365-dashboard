@@ -64,7 +64,7 @@ const createCategory = () => {
           value={nameCategory}
           onChange={handleChange}
         />
-        {categories.length && (
+        {categories.length > 0 && (
           <ParentCategory>
             <InputParent
               id="parent"
@@ -76,7 +76,7 @@ const createCategory = () => {
             <LabelParent htmlFor="parent">Criar como uma sub-categoria</LabelParent>
           </ParentCategory>
         )}
-        {categories.length && parentCategory && (
+        {categories.length > 0 && parentCategory && (
           <Categories>
             <ListCategories value={idCategory} onChange={handleSelect}>
               {categories.map((item) => (
