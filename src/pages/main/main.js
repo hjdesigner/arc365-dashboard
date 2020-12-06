@@ -4,6 +4,7 @@ import { Header } from 'components';
 import * as routes from 'utils/routes';
 
 const createCategory = lazy(() => import('pages/createCategory'));
+const category = lazy(() => import('pages/category'));
 
 const Main = () => (
   <>
@@ -11,6 +12,7 @@ const Main = () => (
     <Suspense fallback="Loading....">
       <Switch>
         <Route path={routes.CADASTO_CATEGORIA} exact component={createCategory} />
+        <Route path={routes.CATEGORY} exact component={category} />
       </Switch>
     </Suspense>
   </>

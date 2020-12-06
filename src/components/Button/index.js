@@ -1,1 +1,1 @@
-export { default } from './Button';
+export { StandardButton, SmallButton, SmallButtonDanger } from './Button';
