@@ -14,15 +14,16 @@ const ListCategory = ({ item }) => {
         </ListActions>
       </List>
       <SubList>
-        {item.subCategory.length > 0 && item.subCategory.map(item =>
-          <SubItem key={item.id_sub_category}>
-            <SubListText>{item.name_sub_category}</SubListText>
-            <SubListActions>
-              <SubEdit>Editar</SubEdit>
-              <SubDelete>Excluir</SubDelete>
-            </SubListActions>
-          </SubItem>
-        )}
+        {item.subCategory.length > 0 &&
+          item.subCategory.map((item) => (
+            <SubItem key={item.id_sub_category}>
+              <SubListText>{item.name_sub_category}</SubListText>
+              <SubListActions>
+                <SubEdit>Editar</SubEdit>
+                <SubDelete>Excluir</SubDelete>
+              </SubListActions>
+            </SubItem>
+          ))}
       </SubList>
     </>
   );
@@ -62,7 +63,7 @@ const SubEdit = styled(Edit)``;
 const SubDelete = styled(Delete)``;
 
 ListCategory.propTypes = {
-  item: object.isRequired
+  item: object.isRequired,
 };
 
 export default ListCategory;
